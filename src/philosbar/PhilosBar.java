@@ -11,6 +11,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -85,6 +87,15 @@ public class PhilosBar {
         }
         
         newLine(2);
+
+        //Collections.reverse(PhilosBar.philos);
+
+        Collections.sort(PhilosBar.philos, new Comparator<Philosopher>() {
+            @Override
+            public int compare(Philosopher arg0, Philosopher arg1) {
+                return arg0.getBottles().size() - arg1.getBottles().size();
+            }
+        });
         
         for (Philosopher p : PhilosBar.philos) {
             exec.execute(p);
