@@ -24,7 +24,9 @@ class Bottle {
     public synchronized void await(Philosopher p) throws InterruptedException{
         
         while(occupied){
-            System.out.println(p.getId() + " WAIT >>> "+this+"\t"+ p.getBottles());
+            
+            System.out.println(TextColor.red() + p.getId() + " WAIT >>> "+this+"\t"+ p.getBottles() + TextColor.endColor());
+            
             //new Thread(new TimeOut(p)).start();
             wait();
         }

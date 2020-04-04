@@ -99,7 +99,8 @@ public class Philosopher extends Thread{
                 break;
         }
         
-        System.out.println(id + " is DRINKING " + bottles);
+        System.out.println(TextColor.green() + id + " is DRINKING " + bottles + TextColor.endColor() );
+        TextColor.endColor();
         double time = System.currentTimeMillis();
         numBottles = n;
         for (Bottle bottle : bottles) {
@@ -121,7 +122,7 @@ public class Philosopher extends Thread{
     }
     
     public void dropBottles(int numBottles){
-        this.setPriority(Thread.NORM_PRIORITY);
+        
         for (Bottle bottle : bottles) {
             bottle.signal();
             numBottles--;
