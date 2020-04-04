@@ -69,7 +69,8 @@ public class Philosopher extends Thread{
      */
     public void take(Bottle bottle){
         this.bottles.add(bottle);
-        bottle.setVolume(bottle.getVolume()+this.rounds);
+        //bottle.setVolume(bottle.getVolume()+this.rounds);
+
     }
     
     public void myBottles(){
@@ -99,7 +100,7 @@ public class Philosopher extends Thread{
                 break;
         }
         
-        System.out.println(TextColor.green() + id + " is DRINKING " + bottles + TextColor.endColor() );
+        System.out.println(TextColor.green() + id + " is DRINKING " + TextColor.endColor() + bottles );
         
         double time = System.currentTimeMillis();
         numBottles = n;

@@ -2,7 +2,7 @@ package philosbar;
 
 public class TextColor {
     
-    private static String CSI = "\u001B[";
+    private static String CSI = "\u001b[";
     
     public static String endColor(){
         return (CSI + "m");
@@ -18,10 +18,6 @@ public class TextColor {
     
     public static String yellow(){
         return (CSI + "33" + "m");
-    }
-
-    public static void defColor(){
-        System.out.print (CSI + "39" + "m");    
     }
 
 }
