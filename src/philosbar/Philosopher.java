@@ -100,7 +100,7 @@ public class Philosopher extends Thread{
         }
         
         System.out.println(TextColor.green() + id + " is DRINKING " + bottles + TextColor.endColor() );
-        TextColor.endColor();
+        
         double time = System.currentTimeMillis();
         numBottles = n;
         for (Bottle bottle : bottles) {
