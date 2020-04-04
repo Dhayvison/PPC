@@ -24,12 +24,12 @@ import javax.swing.JFileChooser;
  */
 public class PhilosBar {
     
-    final static JFileChooser fc = new JFileChooser("/home/ubuntu/NetBeansProjects/PhillosBar 2-20200302T113019Z-001/PhillosBar 2/src/inputs");
+    final static JFileChooser fc = new JFileChooser(new File("").getAbsolutePath() + "/src/inputs/");
     public static final ArrayList<Philosopher> philos = new ArrayList<Philosopher>();
     
     public static File selectFile (){
-        int retr = fc.showOpenDialog(fc);
         File file = null;
+        int retr = fc.showOpenDialog(fc);
         
         if (retr == JFileChooser.APPROVE_OPTION) {
              file = fc.getSelectedFile();
@@ -99,9 +99,9 @@ public class PhilosBar {
                 }
                 
                 newLine(2);
-                System.out.println("Média das Médias: "+average()/1000);
-                System.out.println("Desvio padrão: "+starvationCoeficiente()/1000);
-                System.out.println("Starvation: " + ((starvationCoeficiente() / average()))*100+"%");
+                System.out.println("Global Average: "+average()/1000);
+                System.out.println("Standart Deviation: "+stdDeviation()/1000);
+                // System.out.println("Starvation: " + ((starvationCoeficiente() / average()))*100+"%");
                 System.out.println("Time elapsed: "+ ((System.currentTimeMillis() - time)/1000));
             }else{
                 newLine(2);
@@ -125,7 +125,7 @@ public class PhilosBar {
         return avg/philos.size();
     }
     
-    public static double starvationCoeficiente(){
+    public static double stdDeviation(){
         double stdDeviation = 0;
         double avg = average();
         for (Philosopher philo : philos) {
