@@ -93,19 +93,19 @@ public class PhilosBar {
         exec.shutdown();
         
         try {
-            if (exec.awaitTermination(1, TimeUnit.MINUTES)){
+            if (exec.awaitTermination(2, TimeUnit.MINUTES)){
                 for (Philosopher p : PhilosBar.philos) {
                     p.myTimes();
                 }
                 
                 newLine(2);
-                System.out.println("Global Average: "+average()/1000);
-                System.out.println("Standart Deviation: "+stdDeviation()/1000);
-                // System.out.println("Starvation: " + ((starvationCoeficiente() / average()))*100+"%");
-                System.out.println("Time elapsed: "+ ((System.currentTimeMillis() - time)/1000));
+                System.out.println("Global Average: "+average()/1000 +" s");
+                System.out.println("Standart Deviation: "+stdDeviation()/1000 +" s");
+                //System.out.println("Starvation: " + ((starvationCoeficiente() / average()))*100+"%");
+                System.out.println("Time elapsed: "+ ((System.currentTimeMillis() - time)/1000)+" s");
             }else{
                 newLine(2);
-                System.out.println("Time limit exceded!");
+                System.out.println(TextColor.red() + "Time limit exceded!" + TextColor.endColor());
             }
         } catch (Exception e) {
         }
