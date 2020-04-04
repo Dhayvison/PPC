@@ -7,25 +7,26 @@ package philosbar;
 
 /**
  *
- * @author ubuntu
+ * @author ubuntu 
  */
 class Bottle {
     
     private final int id;
-    private int volume = 0;
     private boolean occupied = false;
+    private String color;
     
     private static int lastId = 0;
  
     public Bottle() {
         this.id = lastId++;
+        this.color = "\u001b[38;5;"+this.id+"m";
     }
     
     public synchronized void await(Philosopher p) throws InterruptedException{
         
         while(occupied){
             
-            System.out.println(TextColor.red() + p.getId() + " WAIT >>> "+this+"\t"+ p.getBottles() + TextColor.endColor());
+            System.out.println(TextColor.red() + p.getId() + " WAIT >>> "+TextColor.endColor()+this+"\t"+ p.getBottles());
             
             //new Thread(new TimeOut(p)).start();
             wait();
@@ -39,21 +40,13 @@ class Bottle {
     }
     
     public void glup(){
-        this.volume--;
+        //this.volume--;
     }
     
     @Override
     public String toString() {
-        return ""+this.id+" : "+this.occupied;
+        return this.color+this.id+"\u001b[0m";
         //return ""+this.id+" : "+this.occupied +"\tvolume: "+this.volume;    
-    }
-
-    public int getVolume() {
-        return volume;
-    }
-
-    public void setVolume(int volume) {
-        this.volume = volume;
     }
     
     
