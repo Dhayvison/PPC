@@ -1,8 +1,3 @@
-/*   
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package philosbar;
 
 import java.util.ArrayList;
@@ -10,10 +5,6 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author ubuntu
- */
 public class Philosopher extends Thread{
     
     private final long id;
@@ -36,9 +27,6 @@ public class Philosopher extends Thread{
         return random.nextInt((max - min) + 1) + min;
     }
     
-    /**
-     *
-     */
     @Override
     public void run() {
         
@@ -47,14 +35,14 @@ public class Philosopher extends Thread{
             try {
                 time = System.currentTimeMillis();
                 
-                Thread.sleep(random.nextInt(2000));
+                Thread.sleep(random.nextInt(2000)); // TRANQUIL TIME
                 this.tranquil += (System.currentTimeMillis() - time);
                 
-                time = System.currentTimeMillis();
+                time = System.currentTimeMillis(); 
                 System.out.println(this.id + " is THIRSTY!");
                 
                 drink(randomInRange(2, this.bottles.size()));
-                this.thirsty += (System.currentTimeMillis() - time);
+                this.thirsty += (System.currentTimeMillis() - time); // THIRSTY TIME
                 
             } catch (InterruptedException ex) {
                 Logger.getLogger(Philosopher.class.getName()).log(Level.SEVERE, null, ex);
@@ -62,15 +50,40 @@ public class Philosopher extends Thread{
                     
         }
     }
+
+    private void drink(int n) throws InterruptedException{
+        
+        int numBottles = n;
+        System.out.println(this.id+" requires "+ numBottles +" Bottles");
+        
+        for (Bottle bottle : bottles) {
+            bottle.await(this); 
+            numBottles--;
+            if (numBottles == 0)
+                break;
+        }
+        
+        System.out.println(TextColor.green() + id + " is DRINKING " + n +" "+TextColor.endColor() + bottles );
+        
+        double time = System.currentTimeMillis();
+        Thread.sleep(1000); // DRINKING TIME
+        this.drinking += System.currentTimeMillis() - time;
+        
+        System.out.println(this.id + " is TRANQUIL!");
+        dropBottles(n);
+    }
+
+    public void dropBottles(int numBottles){
+        for (Bottle bottle : bottles) {
+            bottle.signal();
+            numBottles--;
+            if (numBottles == 0)
+                break;
+        }
+    }
     
-    /**
-     *
-     * @param bottle
-     */
     public void take(Bottle bottle){
         this.bottles.add(bottle);
-        //bottle.setVolume(bottle.getVolume()+this.rounds);
-
     }
     
     public void myBottles(){
@@ -88,54 +101,10 @@ public class Philosopher extends Thread{
         System.out.println("TOTAL : "+ total/1000 +" s");
     }
 
-    private void drink(int n) throws InterruptedException{
-        
-        int numBottles = n;
-        System.out.println(this.id+" requires "+numBottles+" Bottles");
-        
-        for (Bottle bottle : bottles) {
-            bottle.await(this);
-            numBottles--;
-            if (numBottles == 0)
-                break;
-        }
-        
-        System.out.println(TextColor.green() + id + " is DRINKING " + TextColor.endColor() + bottles );
-        
-        double time = System.currentTimeMillis();
-        numBottles = n;
-        for (Bottle bottle : bottles) {
-            bottle.glup();
-            numBottles--;
-            if (numBottles == 0)
-                break;
-        }
-        Thread.sleep(1000);
-        
-        this.drinking += System.currentTimeMillis() - time;
-        
-        System.out.println(this.id + " is TRANQUIL!");
-        dropBottles(n);
-    }
-
     public ArrayList<Bottle> getBottles() {
         return bottles;
     }
     
-    public void dropBottles(int numBottles){
-        
-        for (Bottle bottle : bottles) {
-            bottle.signal();
-            numBottles--;
-            if (numBottles == 0)
-                break;
-        }
-    }
-    
-    /**
-     *
-     * @return
-     */
     @Override
     public long getId(){
         return this.id;

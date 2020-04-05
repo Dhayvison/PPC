@@ -1,8 +1,3 @@
-/*  
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package philosbar;
 
 import java.io.BufferedReader;
@@ -20,10 +15,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 
-/**
- *
- * @author ubuntu
- */
 public class PhilosBar {
     
     final static JFileChooser fc = new JFileChooser(new File("").getAbsolutePath() + "/src/inputs/");
@@ -33,12 +24,11 @@ public class PhilosBar {
         File file = null;
         int retr = fc.showOpenDialog(fc);
         
-        if (retr == JFileChooser.APPROVE_OPTION) {
+        if (retr == JFileChooser.APPROVE_OPTION) 
              file = fc.getSelectedFile();
-        } else {
+        else 
             System.out.println("Erro: File not found");
-        }
-        
+
         return file;
     }
     
@@ -71,31 +61,22 @@ public class PhilosBar {
         
     }
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
         
         double time = System.currentTimeMillis();
         
-        PhilosBar.makeGraph();
+        makeGraph();
         
         ExecutorService exec = Executors.newCachedThreadPool();
         
         for (Philosopher p : PhilosBar.philos) {
-            p.myBottles();
+            System.out.print(p.getId() +" :"); 
+            p.myBottles(); 
         }
         
         newLine(2);
 
-        //Collections.reverse(PhilosBar.philos);
-
-        Collections.sort(PhilosBar.philos, new Comparator<Philosopher>() {
-            @Override
-            public int compare(Philosopher arg0, Philosopher arg1) {
-                return arg0.getBottles().size() - arg1.getBottles().size();
-            }
-        });
+        sortPhilosophers();
         
         for (Philosopher p : PhilosBar.philos) {
             exec.execute(p);
@@ -112,15 +93,23 @@ public class PhilosBar {
                 newLine(2);
                 System.out.println("Global Average: "+average()/1000 +" s");
                 System.out.println("Standart Deviation: "+stdDeviation()/1000 +" s");
-                //System.out.println("Starvation: " + ((starvationCoeficiente() / average()))*100+"%");
                 System.out.println("Time elapsed: "+ ((System.currentTimeMillis() - time)/1000)+" s");
             }else{
                 newLine(2);
-                System.out.println(TextColor.red() + "Time limit exceded!" + TextColor.endColor());
+                System.out.println(TextColor.yellow() + "Time limit exceded!" + TextColor.endColor());
             }
         } catch (Exception e) {
         }
         
+    }
+
+    public static void sortPhilosophers(){
+        Collections.sort(PhilosBar.philos, new Comparator<Philosopher>() {
+            @Override
+            public int compare(Philosopher arg0, Philosopher arg1) {
+                return arg0.getBottles().size() - arg1.getBottles().size();
+            }
+        });
     }
     
     public static void newLine(int n){

@@ -19,16 +19,12 @@ class Bottle {
  
     public Bottle() {
         this.id = lastId++;
-        this.color = "\u001b[38;5;"+this.id+"m";
+        this.color = "\u001b[38;5;"+this.id+"m";  // aceita até 256 cores
     }
     
     public synchronized void await(Philosopher p) throws InterruptedException{
-        
         while(occupied){
-            
             System.out.println(TextColor.red() + p.getId() + " WAIT >>> "+TextColor.endColor()+this+"\t"+ p.getBottles());
-            
-            //new Thread(new TimeOut(p)).start();
             wait();
         }
         occupied = true;
@@ -38,15 +34,10 @@ class Bottle {
         occupied = false;
         notifyAll();
     }
-    
-    public void glup(){
-        //this.volume--;
-    }
-    
+
     @Override
     public String toString() {
-        return this.color+this.id+"\u001b[0m";
-        //return ""+this.id+" : "+this.occupied +"\tvolume: "+this.volume;    
+        return this.color+this.id+"\u001b[0m";    
     }
     
     
